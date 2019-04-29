@@ -1,0 +1,4 @@
+[submodule "mjcf-parser"]
+	path = mjcf-parser
+	url = ssh://git@cardinaltetra.coral.cs.cmu.edu:2222/dschwab/mjcf-parser.git
+	branch = model-explorer

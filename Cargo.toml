@@ -1,0 +1,5 @@
+[workspace]
+members = [
+        "mjcf-parser",
+        "model-explorer",
+]
