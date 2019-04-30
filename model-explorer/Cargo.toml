@@ -7,8 +7,15 @@ edition = "2018"
 [dependencies]
 # kiss3d = "0.16"
 mjcf-parser = { path = "../mjcf-parser" }
+nalgebra = "0.18"
+ncollide3d = "0.19"
+nphysics3d = "0.11"
 structopt = "0.2"
 slog = "2"
 slog-stdlog = "3"
 slog-async = "2"
 slog-term = "2"
+
+[features]
+default = []
+trace = ["slog/max_level_trace", "slog/release_max_level_trace"]
