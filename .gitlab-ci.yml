@@ -1,0 +1,49 @@
+image: corallab/rust:18.04
+
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
+stages:
+  - lint
+  - test
+  - examples
+  - docs
+
+before_script:
+  - export PATH=$HOME/.cargo/bin:$PATH
+  - cargo --version
+  - rustc --version
+  - cargo +nightly --version
+  - rustc +nightly --version
+
+rust:clippy:
+  stage: lint
+  script:
+    - cargo clippy -- -Dwarnings
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /:construction:/
+  
+rust:test:
+  stage: test
+  script:
+    - cargo test
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /:construction:/
+    
+rust:examples:
+  stage: examples
+  script:
+    - cargo build --examples
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /:construction:/    
+
+rust:docs:
+  stage: docs
+  script:
+    - cargo doc --all --exclude mjcf-parser
+  except:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /:construction:/    
