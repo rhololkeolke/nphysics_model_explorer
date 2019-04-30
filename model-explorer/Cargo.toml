@@ -5,7 +5,7 @@ authors = ["Devin Schwab <digidevin@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-# kiss3d = "0.16"
+nphysics_testbed3d = { path = "../nphysics_testbed3d" }
 mjcf-parser = { path = "../mjcf-parser" }
 nalgebra = "0.18"
 ncollide3d = "0.19"
