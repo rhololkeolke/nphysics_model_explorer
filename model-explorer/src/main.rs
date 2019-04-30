@@ -7,6 +7,7 @@ use slog::{o, Drain};
 use std::fs;
 use std::path::{Path, PathBuf};
 use structopt::StructOpt;
+use nphysics_testbed3d::Testbed;
 
 fn parse_log_level(level: &str) -> Result<slog::Level, String> {
     match level.trim().to_lowercase().as_str() {
@@ -80,6 +81,14 @@ fn main() {
 
     // build model desc
     model_desc.build(&mut world);
+
+    // create the testbed
+    let mut testbed = Testbed::new(world);
+    testbed.look_at(
+        na::Point3::new(2.0, 2.0, 2.0),
+        na::Point3::new(0.0, 0.0, 0.0),
+    );
+    testbed.run();
 
     // run this to force a flush of logs
     mjcf_parser::drop_root_logger();
