@@ -5,6 +5,10 @@ authors = ["Devin Schwab <digidevin@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-kiss3d = "0.16"
+# kiss3d = "0.16"
 mjcf-parser = { path = "../mjcf-parser" }
 structopt = "0.2"
+slog = "2"
+slog-stdlog = "3"
+slog-async = "2"
+slog-term = "2"
