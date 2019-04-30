@@ -2,5 +2,6 @@
 members = [
         "mjcf-parser",
         "model-explorer",
-        "nphysics_testbed3d",        
+        "nphysics_testbed3d",
+        "nphysics_user_data_traits",
 ]
