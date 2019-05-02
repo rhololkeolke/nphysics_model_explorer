@@ -5,6 +5,8 @@
 [submodule "nphysics_testbed3d"]
 	path = nphysics_testbed3d
 	url = "../nphysics_testbed3d.git"
+	branch = master
 [submodule "nphysics_user_data"]
 	path = nphysics_user_data
 	url = ../nphysics_user_data.git
+	branch = master
