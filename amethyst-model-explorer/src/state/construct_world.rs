@@ -1,6 +1,5 @@
 use super::run_sim::RunSimState;
 use crate::component::Collider as ColliderComponent;
-use crate::resource::physics::PhysicsWorld;
 use amethyst::{
     assets::{AssetLoaderSystemData, Handle},
     core::Transform,
@@ -13,7 +12,6 @@ use nalgebra as na;
 use ncollide3d::shape;
 use nphysics3d::world::World;
 use nphysics_user_data::ColliderUserData;
-use std::str::FromStr;
 
 pub struct ConstructWorldState<N>
 where
@@ -97,7 +95,7 @@ impl SimpleState for ConstructWorldState<f32> {
                         loader.load_from_data([rgba.x, rgba.y, rgba.z, rgba.w].into(), ())
                     });
                 Material {
-                    albedo: albedo,
+                    albedo,
                     ..mat_defaults.clone()
                 }
             } else {
@@ -122,7 +120,7 @@ impl SimpleState for ConstructWorldState<f32> {
 
             println!("Create mesh component");
             let shape = collider.shape().as_ref();
-            if let Some(s) = shape.as_shape::<shape::Plane<f32>>() {
+            if let Some(_s) = shape.as_shape::<shape::Plane<f32>>() {
                 // TODO(dschwab): Create an appropriate plane mesh
 
             } else if let Some(s) = shape.as_shape::<shape::Ball<f32>>() {
@@ -146,7 +144,7 @@ impl SimpleState for ConstructWorldState<f32> {
                             .clone(),
                     )
                     .with(trans);
-            } else if let Some(s) = shape.as_shape::<shape::Cuboid<f32>>() {
+            } else if let Some(_s) = shape.as_shape::<shape::Cuboid<f32>>() {
                 // TODO(dschwab): Create an appropriate cube mesh
             }
             // TODO(dschwab): handle other shape cases

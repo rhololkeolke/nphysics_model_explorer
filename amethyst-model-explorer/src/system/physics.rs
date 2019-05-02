@@ -32,7 +32,7 @@ where
         ReadStorage<'s, component::Collider>,
     );
 
-    fn run(&mut self, (physics, mut transforms, colliders): Self::SystemData) {
+    fn run(&mut self, (_physics, _transforms, _colliders): Self::SystemData) {
         // TODO(dschwab): Implement me
     }
 }

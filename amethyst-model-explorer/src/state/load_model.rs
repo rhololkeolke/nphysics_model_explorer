@@ -35,7 +35,7 @@ impl LoadModelState {
 }
 
 impl SimpleState for LoadModelState {
-    fn update(&mut self, data: &mut StateData<'_, GameData<'_, '_>>) -> SimpleTrans {
+    fn update(&mut self, _data: &mut StateData<'_, GameData<'_, '_>>) -> SimpleTrans {
         println!("LoadModelState update");
         let model_desc = self.load_model::<f32>();
 

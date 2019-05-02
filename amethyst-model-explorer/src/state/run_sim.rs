@@ -6,15 +6,10 @@ use amethyst::{
 pub struct RunSimState;
 
 impl SimpleState for RunSimState {
-    fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {
-        // TODO(dschwab): Is this necessary?
-        // might just be an empty method
-        // otherwise, maybe setup cameras and rendering stuff?
-    }
 
     fn handle_event(
         &mut self,
-        data: StateData<'_, GameData<'_, '_>>,
+        _data: StateData<'_, GameData<'_, '_>>,
         event: StateEvent,
     ) -> SimpleTrans {
         if let StateEvent::Window(event) = &event {
