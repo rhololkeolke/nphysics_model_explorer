@@ -3,20 +3,20 @@ use mjcf_parser::MJCFModelDesc;
 use nalgebra as na;
 use super::run_sim::RunSimState;
 
-pub struct ConstructWorldState<'a, N>
+pub struct ConstructWorldState<N>
 where
     N: na::RealField,
 {
-    model_desc: MJCFModelDesc<'a, N>,
+    model_desc: MJCFModelDesc<N>,
 }
 
-impl<'a, N: na::RealField> ConstructWorldState<'a, N> {
-    pub fn new(model_desc: MJCFModelDesc<'a, N>) -> Self {
+impl<'a, N: na::RealField> ConstructWorldState<N> {
+    pub fn new(model_desc: MJCFModelDesc<N>) -> Self {
         Self { model_desc }
     }
 }
 
-impl<'a, N: na::RealField> SimpleState for ConstructWorldState<'a, N> {
+impl<N: na::RealField> SimpleState for ConstructWorldState<N> {
     fn update(&mut self, data: &mut StateData<'_, GameData<'_, '_>>) -> SimpleTrans {
         println!("ConstructWorldState update");
         // TODO(dschwab): Create the meshes

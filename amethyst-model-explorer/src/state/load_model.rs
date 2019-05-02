@@ -1,7 +1,10 @@
 use super::ConstructWorldState;
 use amethyst::{GameData, SimpleState, SimpleTrans, StateData, Trans};
 use mjcf_parser::MJCFModelDesc;
+use nalgebra as na;
+use std::fs;
 use std::path::PathBuf;
+use std::str::FromStr;
 
 // TODO(dschwab): Figure out how to do logging
 
@@ -17,24 +20,24 @@ impl LoadModelState {
 
     /// Parse the specified model creating the construction
     /// descriptors
-    fn load_model(&self) {
+    fn load_model<N: na::RealField + From<f32> + FromStr>(&self) -> MJCFModelDesc<N>
+    where
+        // TODO(dschwab): Why is this necessary?
+        <N as FromStr>::Err: std::fmt::Display,
+    {
         println!("load_model called");
-        // TODO(dschwab): Implement me!
 
-        // TODO(dschwab): How to get command line args for the model
-        // file?
+        let model_xml: String =
+            fs::read_to_string(&self.model_file).expect("Failed to read model file");
+
+        MJCFModelDesc::parse_xml_string(&model_xml).expect("Failed to parse model file xml")
     }
 }
 
 impl SimpleState for LoadModelState {
     fn update(&mut self, data: &mut StateData<'_, GameData<'_, '_>>) -> SimpleTrans {
         println!("LoadModelState update");
-        // TODO(dschwab): Call load_model
-
-        // FIXME(dschwab): Remove me once load_model implemented
-        let empty_model = "<mujoco model=\"Empty World\"><worldbody/></mujoco>";
-        let model_desc = MJCFModelDesc::<f32>::parse_xml_string(empty_model)
-            .expect("Failed to parse empty model string");
+        let model_desc = self.load_model::<f32>();
 
         Trans::Push(Box::new(ConstructWorldState::new(model_desc)))
     }

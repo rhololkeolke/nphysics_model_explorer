@@ -23,7 +23,9 @@ fn main() -> amethyst::Result<()> {
         GameDataBuilder::default().with_bundle(RenderBundle::new(pipe, Some(config)))?;
     let mut game = Application::new(
         "./",
-        LoadModelState::new(PathBuf::from("/tmp/test.mjcf")),
+        LoadModelState::new(PathBuf::from(
+            "../mjcf-parser/examples/static_cylinder_cube.xml",
+        )),
         game_data,
     )?;
 
