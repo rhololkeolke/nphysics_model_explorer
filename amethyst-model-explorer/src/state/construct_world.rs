@@ -1,5 +1,6 @@
 use super::run_sim::RunSimState;
 use crate::component::Collider as ColliderComponent;
+use crate::resource;
 use amethyst::{
     assets::{AssetLoaderSystemData, Handle},
     core::Transform,
@@ -71,6 +72,17 @@ impl SimpleState for ConstructWorldState<f32> {
 
     fn update(&mut self, data: &mut StateData<'_, GameData<'_, '_>>) -> SimpleTrans {
         println!("ConstructWorldState update");
+
+        println!("Checking reload state");
+        {
+            let mut reload_model = data.world.write_resource::<resource::ReloadModel>();
+            if let resource::ReloadModel::Reload = *reload_model {
+                return Trans::Pop;
+            } else {
+                *reload_model = resource::ReloadModel::Run;
+            }
+        }
+        
         let mat_defaults = data.world.read_resource::<MaterialDefaults>().0.clone();
 
         println!("Creating nphysics world");

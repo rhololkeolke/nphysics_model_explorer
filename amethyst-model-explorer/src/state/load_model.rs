@@ -1,4 +1,5 @@
 use super::ConstructWorldState;
+use crate::resource;
 use amethyst::{GameData, SimpleState, SimpleTrans, StateData, Trans};
 use mjcf_parser::MJCFModelDesc;
 use nalgebra as na;
@@ -35,8 +36,17 @@ impl LoadModelState {
 }
 
 impl SimpleState for LoadModelState {
-    fn update(&mut self, _data: &mut StateData<'_, GameData<'_, '_>>) -> SimpleTrans {
+    fn on_start(&mut self, data: StateData<'_, GameData<'_, '_>>) {
+        data.world.add_resource(resource::ReloadModel::Run);
+    }
+
+    fn update(&mut self, data: &mut StateData<'_, GameData<'_, '_>>) -> SimpleTrans {
         println!("LoadModelState update");
+
+        // reset the reload model state
+        let mut reload_model = data.world.write_resource::<resource::ReloadModel>();
+        *reload_model = resource::ReloadModel::Run;
+
         let model_desc = self.load_model::<f32>();
 
         Trans::Push(Box::new(ConstructWorldState::new(model_desc)))
