@@ -14,6 +14,14 @@ where
     _phantom: PhantomData<N>,
 }
 
+impl<N: na::RealField> Default for PhysicsSystem<N> {
+    fn default() -> Self {
+        Self {
+            _phantom: PhantomData,
+        }
+    }
+}
+
 impl<'s, N> System<'s> for PhysicsSystem<N>
 where
     N: na::RealField,

@@ -1,9 +1,11 @@
 use amethyst::{
+    core::TransformBundle,
     prelude::*,
     renderer::{DisplayConfig, DrawFlat, Pipeline, PosNormTex, RenderBundle, Stage},
     utils::application_root_dir,
 };
 use amethyst_model_explorer::state::LoadModelState;
+use amethyst_model_explorer::system::physics::PhysicsSystem;
 use std::path::PathBuf;
 use structopt::StructOpt;
 
@@ -32,8 +34,11 @@ fn main() -> amethyst::Result<()> {
             .with_pass(DrawFlat::<PosNormTex>::new()),
     );
 
-    let game_data =
-        GameDataBuilder::default().with_bundle(RenderBundle::new(pipe, Some(config)))?;
+    let game_data = GameDataBuilder::default()
+        .with_bundle(RenderBundle::new(pipe, Some(config)))?
+        .with_bundle(TransformBundle::new())?
+        .with(PhysicsSystem::<f32>::default(), "physics_system", &[]);
+
     let mut game = Application::new("./", LoadModelState::new(args.model_file), game_data)?;
 
     game.run();

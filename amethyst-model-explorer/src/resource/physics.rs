@@ -6,7 +6,7 @@ pub struct PhysicsWorld<N>
 where
     N: na::RealField,
 {
-    pub world: World<N>,
+    pub world: Option<World<N>>,
 }
 
 impl<N> PhysicsWorld<N>
@@ -15,7 +15,7 @@ where
 {
     /// Wrap an existing nphysics3d world
     pub fn new(world: World<N>) -> Self {
-        PhysicsWorld::<N> { world }
+        PhysicsWorld::<N> { world: Some(world) }
     }
 }
 
@@ -26,7 +26,7 @@ where
     /// Create an empty nphysics3d world
     fn default() -> Self {
         PhysicsWorld::<N> {
-            world: World::new(),
+            world: Some(World::new()),
         }
     }
 }
