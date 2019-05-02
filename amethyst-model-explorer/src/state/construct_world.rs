@@ -4,7 +4,7 @@ use amethyst::{
     assets::{AssetLoaderSystemData, Handle},
     core::Transform,
     prelude::Builder,
-    renderer::{Camera, Material, MaterialDefaults, Mesh, PosNormTex, Projection, Shape, Texture},
+    renderer::{Camera, Material, MaterialDefaults, Mesh, PosNormTex, Shape, Texture},
     GameData, SimpleState, SimpleTrans, StateData, Trans,
 };
 use mjcf_parser::MJCFModelDesc;
@@ -157,10 +157,10 @@ impl SimpleState for ConstructWorldState<f32> {
         // TODO(dschwab): Create multiple cameras from model desc
         println!("Create camera");
         let mut cam_trans = Transform::default();
-        cam_trans.set_z(1.0);
+        cam_trans.set_z(50.0);
         data.world
             .create_entity()
-            .with(Camera::from(Projection::perspective(1.0, 180.0)))
+            .with(Camera::standard_3d(800.0, 600.0))
             .with(cam_trans)
             .build();
 
