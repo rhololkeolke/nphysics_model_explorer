@@ -1,4 +1,4 @@
-image: corallab/rust:18.04
+image: corallab/rust-nphysics-model-explorer:18.04
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
