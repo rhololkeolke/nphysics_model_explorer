@@ -3,11 +3,24 @@ use amethyst::{
     renderer::{DisplayConfig, DrawFlat, Pipeline, PosNormTex, RenderBundle, Stage},
     utils::application_root_dir,
 };
-use std::path::PathBuf;
-
 use amethyst_model_explorer::state::LoadModelState;
+use std::path::PathBuf;
+use structopt::StructOpt;
+
+#[derive(Debug, StructOpt)]
+#[structopt(
+    name = "Model Explorer",
+    about = "Simulate and interact with Nphysics model parsed from MJCF XML file"
+)]
+/// Specify an MJCF XML file, load the model, and simulate it
+struct Args {
+    #[structopt(parse(from_os_str))]
+    model_file: PathBuf,
+}
 
 fn main() -> amethyst::Result<()> {
+    let args = Args::from_args();
+
     amethyst::start_logger(Default::default());
 
     let path = format!("{}/resources/display_config.ron", application_root_dir());
@@ -21,13 +34,7 @@ fn main() -> amethyst::Result<()> {
 
     let game_data =
         GameDataBuilder::default().with_bundle(RenderBundle::new(pipe, Some(config)))?;
-    let mut game = Application::new(
-        "./",
-        LoadModelState::new(PathBuf::from(
-            "../mjcf-parser/examples/static_cylinder_cube.xml",
-        )),
-        game_data,
-    )?;
+    let mut game = Application::new("./", LoadModelState::new(args.model_file), game_data)?;
 
     game.run();
 

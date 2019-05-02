@@ -9,3 +9,4 @@ amethyst = "0.10.0"
 nalgebra = "0.18"
 nphysics3d = "0.11"
 mjcf-parser = { path = "../mjcf-parser" }
+structopt = "0.2"
