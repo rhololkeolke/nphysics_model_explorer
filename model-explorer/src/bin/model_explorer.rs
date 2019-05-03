@@ -6,7 +6,9 @@ use amethyst::{
     utils::application_root_dir,
 };
 use model_explorer::state::LoadModelState;
-use model_explorer::system::{self, mouse_drag::MouseDrag, physics::PhysicsSystem};
+use model_explorer::system::{
+    self, arc_ball_camera::ArcBallCameraSystem, mouse_drag::MouseDrag, physics::PhysicsSystem,
+};
 use std::path::PathBuf;
 use structopt::StructOpt;
 
@@ -41,7 +43,12 @@ fn main() -> amethyst::Result<()> {
         .with_bundle(InputBundle::<(), ()>::new())?
         .with(PhysicsSystem::<f32>::default(), "physics_system", &[])
         .with(MouseDrag::default(), "left_button_drag", &[])
-        .with(system::FPSCamera {}, "fps_camera", &["left_button_drag"]);
+        .with(system::FPSCamera {}, "fps_camera", &["left_button_drag"])
+        .with(
+            ArcBallCameraSystem,
+            "arc_ball_camera_system",
+            &["left_button_drag"],
+        );
 
     let mut game = Application::new("./", LoadModelState::new(args.model_file), game_data)?;
 
