@@ -22,4 +22,4 @@ script:
   - cargo clippy -- -Dwarnings
   - cargo test --verbose
   - cargo build --examples
-  - cargo doc --all --exclude mjcf-parser
+  - cargo doc
