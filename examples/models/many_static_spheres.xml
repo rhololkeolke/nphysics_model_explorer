@@ -1,0 +1,12 @@
+<mujoco model="Static Sphere">
+  <worldbody>
+    <geom size="0.1" pos="-1.0 -1.0 -1.0 "/>
+    <geom size="0.1" pos="-1.0 -1.0 1.0 "/>
+    <geom size="0.1" pos="-1.0 1.0 -1.0 "/>
+    <geom size="0.1" pos="-1.0 1.0 1.0 "/>
+    <geom size="0.1" pos="1.0 -1.0 -1.0 "/>
+    <geom size="0.1" pos="1.0 -1.0 1.0 "/>
+    <geom size="0.1" pos="1.0 1.0 -1.0 "/>
+    <geom size="0.1" pos="1.0 1.0 1.0 "/>    
+  </worldbody>
+</mujoco>

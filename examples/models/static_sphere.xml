@@ -1,0 +1,7 @@
+<mujoco model="Static Sphere">
+  <worldbody>
+    <geom size="1.0" rgba="0 0 1 1"/>
+    <geom pos="0 4.0 -1.0" size="0.2" rgba="1 0 0 1"/>
+    <geom pos="-5.0 0.0 2.0" size="2" rgba="1 0 1 1"/>
+  </worldbody>
+</mujoco>
