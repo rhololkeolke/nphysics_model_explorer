@@ -1,0 +1,25 @@
+dist: xenial
+addons:
+  apt:
+    packages:
+      - libexpat1-dev
+      - libasound2-dev
+      - libx11-xcb-dev
+      - libssl-dev
+      - libxcb-shape0-dev
+      - libxcb-xfixes0-dev
+language: rust
+rust:
+  - stable
+  - nightly
+matrix:
+  allow_failures:
+    - rust: nightly
+  fast_finish: true
+cache: cargo
+script:
+  - rustup component add clippy
+  - cargo clippy -- -Dwarnings
+  - cargo test --verbose
+  - cargo build --examples
+  - cargo doc --all --exclude mjcf-parser
