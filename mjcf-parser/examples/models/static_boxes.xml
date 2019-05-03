@@ -1,0 +1,6 @@
+<mujoco model="Static Boxes">
+  <worldbody>
+    <geom type="box" size="0.1 0.2 0.3"/>
+    <geom type="box" size="0.5 1.0 0.01" pos="-1.0 -1.0 -1.0 "/>
+  </worldbody>
+</mujoco>

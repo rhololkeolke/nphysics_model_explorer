@@ -1,0 +1,44 @@
+<mujoco model="Static Capsules">
+  <worldbody>
+    <!-- coordinate frame -->
+    <geom name="xaxis" type="capsule" size="0.01" fromto="0 0 0 .5 0 0" rgba="1 0 0 1"/>
+    <geom name="yaxis" type="capsule" size="0.01" fromto="0 0 0 0 .5 0" rgba="0 1 0 1"/>
+    <geom name="zaxis" type="capsule" size="0.01" fromto="0 0 0 0 0 .5" rgba="0 0 1 1"/>
+
+    <!-- bottom face -->
+    <geom type="capsule" size="0.01" fromto="-1 -1 -1 1 -1 -1"/>
+    <geom type="capsule" size="0.01" fromto="1 -1 -1 1 1 -1"/>
+    <geom type="capsule" size="0.01" fromto="1 1 -1 -1 1 -1"/>
+    <geom type="capsule" size="0.01" fromto="-1 1 -1 -1 -1 -1"/>
+
+    <!-- front face -->
+    <geom type="capsule" size="0.01" fromto="-1 1 -1 -1 1 1"/>
+    <geom type="capsule" size="0.01" fromto="-1 1 1 1 1 1"/>
+    <geom type="capsule" size="0.01" fromto="1 1 1 1 1 -1"/>
+    <geom type="capsule" size="0.01" fromto="1 1 -1 -1 1 -1"/>
+
+    <!-- left face -->
+    <geom type="capsule" size="0.01" fromto="-1 1 -1 -1 1 1"/>
+    <geom type="capsule" size="0.01" fromto="-1 1 1 -1 -1 1"/>
+    <geom type="capsule" size="0.01" fromto="-1 -1 1 -1 -1 -1"/>
+    <geom type="capsule" size="0.01" fromto="-1 -1 -1 -1 1 -1"/>
+
+    <!-- back face -->
+    <geom type="capsule" size="0.01" fromto="-1 -1 -1 -1 -1 1"/>
+    <geom type="capsule" size="0.01" fromto="-1 -1 1 1 -1 1"/>
+    <geom type="capsule" size="0.01" fromto="1 -1 1 1 -1 -1"/>
+    <geom type="capsule" size="0.01" fromto="1 -1 -1 -1 -1 -1"/>
+
+    <!-- right face -->
+    <geom type="capsule" size="0.01" fromto="1 -1 -1 1 1 -1"/>
+    <geom type="capsule" size="0.01" fromto="1 1 -1 1 1 1"/>
+    <geom type="capsule" size="0.01" fromto="1 1 1 1 -1 1"/>
+    <geom type="capsule" size="0.01" fromto="1 -1 1 1 -1 -1"/>
+
+    <!-- top face -->
+    <geom type="capsule" size="0.01" fromto="-1 1 1 -1 -1 1"/>
+    <geom type="capsule" size="0.01" fromto="-1 -1 1 1 -1 1"/>
+    <geom type="capsule" size="0.01" fromto="1 -1 1 1 1 1"/>
+    <geom type="capsule" size="0.01" fromto="1 1 1 -1 1 1"/>
+  </worldbody>
+</mujoco>
