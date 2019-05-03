@@ -4,8 +4,8 @@ use amethyst::{
     renderer::{DisplayConfig, DrawFlat, Pipeline, PosNormTex, RenderBundle, Stage},
     utils::application_root_dir,
 };
-use amethyst_model_explorer::state::LoadModelState;
-use amethyst_model_explorer::system::physics::PhysicsSystem;
+use model_explorer::state::LoadModelState;
+use model_explorer::system::physics::PhysicsSystem;
 use std::path::PathBuf;
 use structopt::StructOpt;
 

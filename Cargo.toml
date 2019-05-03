@@ -1,7 +1,6 @@
 [workspace]
 members = [
+        "model-explorer",
+        "nphysics_user_data",        
         "mjcf-parser",
-        "nphysics_testbed3d",
-        "nphysics_user_data",
-        "amethyst-model-explorer",
 ]

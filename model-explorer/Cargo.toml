@@ -1,5 +1,5 @@
 [package]
-name = "amethyst-model-explorer"
+name = "model-explorer"
 version = "0.1.0"
 authors = ["Devin Schwab <digidevin@gmail.com>"]
 edition = "2018"
