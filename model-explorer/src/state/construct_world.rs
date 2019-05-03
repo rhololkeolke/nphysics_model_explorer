@@ -5,7 +5,9 @@ use amethyst::{
     assets::{AssetLoaderSystemData, Handle},
     core::Transform,
     prelude::Builder,
-    renderer::{Camera, Material, MaterialDefaults, Mesh, PosNormTex, Shape, Texture},
+    renderer::{
+        ActiveCamera, Camera, Material, MaterialDefaults, Mesh, PosNormTex, Shape, Texture,
+    },
     GameData, SimpleState, SimpleTrans, StateData, Trans,
 };
 use mjcf_parser::MJCFModelDesc;
@@ -82,7 +84,7 @@ impl SimpleState for ConstructWorldState<f32> {
                 *reload_model = resource::ReloadModel::Run;
             }
         }
-        
+
         let mat_defaults = data.world.read_resource::<MaterialDefaults>().0.clone();
 
         println!("Creating nphysics world");
@@ -170,11 +172,13 @@ impl SimpleState for ConstructWorldState<f32> {
         println!("Create camera");
         let mut cam_trans = Transform::default();
         cam_trans.set_z(50.0);
-        data.world
+        let cam_entity = data
+            .world
             .create_entity()
             .with(Camera::standard_3d(800.0, 600.0))
             .with(cam_trans)
             .build();
+        (*data.world.write_resource::<ActiveCamera>()).entity = Some(cam_entity);
 
         Trans::Push(Box::new(RunSimState))
     }
