@@ -12,3 +12,4 @@ nphysics3d = "0.11"
 mjcf-parser = { path = "../mjcf-parser" }
 structopt = "0.2"
 nphysics_user_data = { path = "../nphysics_user_data" }
+sm = {version = "0.7", git = "https://github.com/rustic-games/sm.git"}
