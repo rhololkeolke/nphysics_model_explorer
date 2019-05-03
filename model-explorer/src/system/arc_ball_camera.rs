@@ -8,7 +8,7 @@ use amethyst::{
 };
 use sm::{AsEnum, Machine};
 
-const MOUSE_SENSITIVITY: f64 = 0.01f64;
+const MOUSE_SENSITIVITY: f64 = 0.001f64;
 
 pub struct ArcBallCameraSystem;
 
@@ -50,27 +50,40 @@ impl<'s> System<'s> for ArcBallCameraSystem {
                     let delta: na::Vector2<f32> = na::convert(-MOUSE_SENSITIVITY * delta);
 
                     arc_ball_cam.theta += delta.x;
-                    arc_ball_cam.phi += delta.y;
+                    arc_ball_cam.phi = (arc_ball_cam.phi + delta.y)
+                        .min(std::f32::consts::PI)
+                        .max(-std::f32::consts::PI);
                 }
 
                 if dirty_transform {
                     // set the new camera position
                     let sphere_translation: na::Vector3<f32> = match arc_ball_cam.target {
                         component::ArcBallTarget::Point(p) => p - na::Point3::<f32>::origin(),
-                        component::ArcBallTarget::Entity(e) => transforms
+                        component::ArcBallTarget::Entity(e) => *transforms
                             .get(e)
                             .expect("Getting target entity transform")
-                            .translation()
-                            .clone(),
+                            .translation(),
                     };
 
-                    let cam_pos = arc_ball_cam.sphere_position() + sphere_translation;
+                    let sphere_pos = arc_ball_cam.sphere_position();
 
                     let transform = transforms
                         .get_mut(*active_camera_entity)
                         .expect("Getting active camera transform");
-                    transform.set_xyz(cam_pos.x, cam_pos.y, cam_pos.z);
-                    transform.face_towards(sphere_translation, na::Vector::y());
+                    *transform.isometry_mut() = na::Isometry3::<f32>::identity();
+                    transform.pitch_local(-arc_ball_cam.phi);
+                    *transform.translation_mut() = sphere_pos + sphere_translation;
+
+                    // transform.pitch_global(arc_ball_cam.phi);
+                    // transform.yaw_global(arc_ball_cam.theta);
+                    // transform.set_xyz(sphere_pos.x, sphere_pos.y, sphere_pos.z);
+                    // transform.translate_xyz(
+                    //     sphere_translation.x,
+                    //     sphere_translation.y,
+                    //     sphere_translation.z,
+                    // );
+                    // *transform.translation_mut() = sphere_pos; // + sphere_translation;
+                    // transform.face_towards(-sphere_pos, na::Vector3::y());
                 }
             }
         }

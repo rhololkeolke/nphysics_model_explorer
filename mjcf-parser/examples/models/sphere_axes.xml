@@ -1,0 +1,42 @@
+<mujoco model="Sphere Axes">
+  <worldbody>
+    <!-- center -->
+    <geom size="1.0"/>
+
+    <!-- x-axis -->
+    <geom pos="2.2 0 0" size=".1" rgba="1 0 0 1"/>
+    <geom pos="2.4 0 0" size=".1" rgba="1 0 0 1"/>
+    <geom pos="2.6 0 0" size=".1" rgba="1 0 0 1"/>
+    <geom pos="2.8 0 0" size=".1" rgba="1 0 0 1"/>
+    <geom pos="3.0 0 0" size=".1" rgba="1 0 0 1"/>
+    <geom pos="3.2 0 0" size=".1" rgba="1 0 0 1"/>
+    <geom pos="3.4 0 0" size=".1" rgba="1 0 0 1"/>
+    <geom pos="3.6 0 0" size=".1" rgba="1 0 0 1"/>
+    <geom pos="3.8 0 0" size=".1" rgba="1 0 0 1"/>
+    <geom pos="4.0 0 0" size=".1" rgba="1 0 0 1"/>
+
+    <!-- y-axis -->
+    <geom pos="0 2.2 0" size=".1" rgba="0 1 0 1"/>
+    <geom pos="0 2.4 0" size=".1" rgba="0 1 0 1"/>
+    <geom pos="0 2.6 0" size=".1" rgba="0 1 0 1"/>
+    <geom pos="0 2.8 0" size=".1" rgba="0 1 0 1"/>
+    <geom pos="0 3.0 0" size=".1" rgba="0 1 0 1"/>
+    <geom pos="0 3.2 0" size=".1" rgba="0 1 0 1"/>
+    <geom pos="0 3.4 0" size=".1" rgba="0 1 0 1"/>
+    <geom pos="0 3.6 0" size=".1" rgba="0 1 0 1"/>
+    <geom pos="0 3.8 0" size=".1" rgba="0 1 0 1"/>
+    <geom pos="0 4.0 0" size=".1" rgba="0 1 0 1"/>
+
+    <!-- z-axis -->
+    <geom pos="0 0 2.2" size=".1" rgba="0 0 1 1"/>
+    <geom pos="0 0 2.4" size=".1" rgba="0 0 1 1"/>
+    <geom pos="0 0 2.6" size=".1" rgba="0 0 1 1"/>
+    <geom pos="0 0 2.8" size=".1" rgba="0 0 1 1"/>
+    <geom pos="0 0 3.0" size=".1" rgba="0 0 1 1"/>
+    <geom pos="0 0 3.2" size=".1" rgba="0 0 1 1"/>
+    <geom pos="0 0 3.4" size=".1" rgba="0 0 1 1"/>
+    <geom pos="0 0 3.6" size=".1" rgba="0 0 1 1"/>
+    <geom pos="0 0 3.8" size=".1" rgba="0 0 1 1"/>
+    <geom pos="0 0 4.0" size=".1" rgba="0 0 1 1"/>
+  </worldbody>
+</mujoco>
