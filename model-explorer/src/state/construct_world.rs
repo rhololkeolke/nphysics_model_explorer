@@ -1,5 +1,5 @@
 use super::run_sim::RunSimState;
-use crate::component::Collider as ColliderComponent;
+use crate::component::{self, Collider as ColliderComponent};
 use crate::resource;
 use amethyst::{
     assets::{AssetLoaderSystemData, Handle},
@@ -172,11 +172,13 @@ impl SimpleState for ConstructWorldState<f32> {
         println!("Create camera");
         let mut cam_trans = Transform::default();
         cam_trans.set_z(50.0);
+        let fps_cam = component::FPSCamera::default();
         let cam_entity = data
             .world
             .create_entity()
             .with(Camera::standard_3d(800.0, 600.0))
             .with(cam_trans)
+            .with(fps_cam)
             .build();
         (*data.world.write_resource::<ActiveCamera>()).entity = Some(cam_entity);
 
