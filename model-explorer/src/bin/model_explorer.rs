@@ -2,7 +2,10 @@ use amethyst::{
     core::TransformBundle,
     input::InputBundle,
     prelude::*,
-    renderer::{DisplayConfig, DrawFlat, Pipeline, PosNormTex, RenderBundle, Stage},
+    renderer::{
+        ColorMask, DepthMode, DisplayConfig, DrawFlat, Pipeline, PosNormTex, RenderBundle, Stage,
+        ALPHA,
+    },
     utils::application_root_dir,
 };
 use model_explorer::state::LoadModelState;
@@ -32,7 +35,11 @@ fn main() -> amethyst::Result<()> {
     let pipe = Pipeline::build().with_stage(
         Stage::with_backbuffer()
             .clear_target([1.0, 1.0, 1.0, 1.0], 1.0)
-            .with_pass(DrawFlat::<PosNormTex>::new()),
+            .with_pass(DrawFlat::<PosNormTex>::new().with_transparency(
+                ColorMask::all(),
+                ALPHA,
+                Some(DepthMode::LessEqualWrite),
+            )),
     );
 
     let game_data = GameDataBuilder::default()
