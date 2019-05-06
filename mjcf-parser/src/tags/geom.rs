@@ -1,5 +1,4 @@
 use crate::attributes;
-use nphysics_user_data::ColliderUserData;
 use failure::Fail;
 use nalgebra as na;
 use ncollide3d::shape;
@@ -7,6 +6,7 @@ use ncollide3d::shape::ShapeHandle;
 use ncollide3d::transformation::ToTriMesh;
 use nphysics3d::material::{BasicMaterial, MaterialHandle};
 use nphysics3d::object::ColliderDesc;
+use nphysics_user_data::ColliderUserData;
 use roxmltree;
 #[allow(unused_imports)]
 use slog::{debug, error, info, trace, warn};
@@ -192,7 +192,12 @@ where
         Some("plane") => attributes::parse_orientation_attribute(logger, geom_node, false)?,
         Some("sphere") | None => attributes::parse_orientation_attribute(logger, geom_node, false)?,
         Some("capsule") | Some("cylinder") => {
-            attributes::parse_orientation_attribute(logger, geom_node, true)?
+            let fix_principal_axis = na::UnitQuaternion::<N>::from_euler_angles(
+                N::from(0.0),
+                N::from(std::f32::consts::FRAC_PI_2),                
+                N::from(0.0),
+            );
+            attributes::parse_orientation_attribute(logger, geom_node, true)? * fix_principal_axis
         }
         Some("box") => attributes::parse_orientation_attribute(logger, geom_node, true)?,
         Some(geom_type) => {
