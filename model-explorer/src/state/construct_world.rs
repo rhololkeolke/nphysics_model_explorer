@@ -137,10 +137,10 @@ impl SimpleState for ConstructWorldState<f32> {
                 collider.position().translation.z,
             );
             *trans.rotation_mut() = ana::Unit::new_unchecked(ana::Quaternion::new(
+                collider.position().rotation.coords.w,
                 collider.position().rotation.coords.x,
                 collider.position().rotation.coords.y,
                 collider.position().rotation.coords.z,
-                collider.position().rotation.coords.w,
             ));
 
             let mesh: Handle<Mesh> = if let Some(_s) = shape.as_shape::<shape::Plane<f32>>() {
