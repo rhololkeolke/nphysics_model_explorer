@@ -13,7 +13,10 @@ use amethyst::{
 };
 use mjcf_parser::MJCFModelDesc;
 use nalgebra as na;
-use ncollide3d::{shape, transformation};
+use ncollide3d::{
+    shape,
+    transformation::{self, ToTriMesh},
+};
 use nphysics3d::world::World;
 use nphysics_user_data::ColliderUserData;
 
@@ -156,9 +159,18 @@ impl SimpleState for ConstructWorldState<f32> {
             } else if let Some(_s) = shape.as_shape::<shape::Cuboid<f32>>() {
                 // TODO(dschwab): Create an appropriate cube mesh
                 unimplemented!()
-            } else if let Some(_s) = shape.as_shape::<shape::Capsule<f32>>() {
-                // TODO(dschwab): Create an appropriate capsule mesh
-                unimplemented!()
+            } else if let Some(s) = shape.as_shape::<shape::Capsule<f32>>() {
+                println!("Loading capsule");
+                let mesh = {
+                    let mut mesh = s.to_trimesh((32, 32));
+                    mesh.replicate_vertices();
+                    mesh.recompute_normals();
+
+                    asset::trimesh::to_mesh_data(&mesh)
+                };
+
+                data.world
+                    .exec(|loader: AssetLoaderSystemData<'_, Mesh>| loader.load_from_data(mesh, ()))
             } else if let Some(_s) = shape.as_shape::<shape::HeightField<f32>>() {
                 unimplemented!()
             } else if let Some(_s) = shape.as_shape::<shape::TriMesh<f32>>() {
