@@ -3,8 +3,8 @@ use amethyst::{
     input::InputBundle,
     prelude::*,
     renderer::{
-        ColorMask, DepthMode, DisplayConfig, DrawFlat, Pipeline, PosNormTex, RenderBundle, Stage,
-        ALPHA,
+        ColorMask, DepthMode, DisplayConfig, DrawFlat, DrawSkybox, Pipeline, PosNormTex,
+        RenderBundle, Stage, ALPHA,
     },
     utils::application_root_dir,
 };
@@ -32,15 +32,21 @@ fn main() -> amethyst::Result<()> {
     let path = format!("{}/resources/display_config.ron", application_root_dir());
     let config = DisplayConfig::load(&path);
 
-    let pipe = Pipeline::build().with_stage(
-        Stage::with_backbuffer()
-            .clear_target([1.0, 1.0, 1.0, 1.0], 1.0)
-            .with_pass(DrawFlat::<PosNormTex>::new().with_transparency(
-                ColorMask::all(),
-                ALPHA,
-                Some(DepthMode::LessEqualWrite),
-            )),
-    );
+    let pipe = Pipeline::build()
+        .with_stage(
+            Stage::with_backbuffer()
+                .clear_target([0.0, 0.0, 0.0, 1.0], 1.0)
+                .with_pass(DrawSkybox::new()),
+        )
+        .with_stage(
+            Stage::with_backbuffer()
+                // .clear_target([1.0, 1.0, 1.0, 1.0], 1.0)
+                .with_pass(DrawFlat::<PosNormTex>::new().with_transparency(
+                    ColorMask::all(),
+                    ALPHA,
+                    Some(DepthMode::LessEqualWrite),
+                )),
+        );
 
     let game_data = GameDataBuilder::default()
         .with_bundle(RenderBundle::new(pipe, Some(config)))?
