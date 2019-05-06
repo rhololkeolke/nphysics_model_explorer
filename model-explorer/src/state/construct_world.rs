@@ -143,9 +143,10 @@ impl SimpleState for ConstructWorldState<f32> {
                 collider.position().rotation.coords.z,
             ));
 
-            let mesh: Handle<Mesh> = if let Some(_s) = shape.as_shape::<shape::Plane<f32>>() {
-                // TODO(dschwab): Create an appropriate plane mesh
-                unimplemented!()
+            let mesh: Handle<Mesh> = if shape.as_shape::<shape::Plane<f32>>().is_some() {
+                data.world.exec(|loader: AssetLoaderSystemData<'_, Mesh>| {
+                    loader.load_from_data(Shape::Plane(None).generate::<Vec<PosNormTex>>(None), ())
+                })
             } else if let Some(s) = shape.as_shape::<shape::Ball<f32>>() {
                 let scale = 2.0 * s.radius() + collider.margin();
                 trans.set_scale(scale, scale, scale);
