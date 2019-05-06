@@ -1,9 +1,10 @@
 use super::run_sim::RunSimState;
+use crate::asset;
 use crate::component::{self, Collider as ColliderComponent};
 use crate::resource;
 use amethyst::{
     assets::{AssetLoaderSystemData, Handle},
-    core::Transform,
+    core::{nalgebra as ana, Transform},
     prelude::Builder,
     renderer::{
         ActiveCamera, Camera, Material, MaterialDefaults, Mesh, PosNormTex, Shape, Texture,
@@ -12,7 +13,7 @@ use amethyst::{
 };
 use mjcf_parser::MJCFModelDesc;
 use nalgebra as na;
-use ncollide3d::shape;
+use ncollide3d::{shape, transformation};
 use nphysics3d::world::World;
 use nphysics_user_data::ColliderUserData;
 
@@ -124,46 +125,67 @@ impl SimpleState for ConstructWorldState<f32> {
                 }
             };
 
-            let mut entity = data
-                .world
+            println!("Create mesh component");
+            let shape = collider.shape().as_ref();
+            let mut trans = Transform::default();
+            trans.set_xyz(
+                collider.position().translation.x,
+                collider.position().translation.y,
+                collider.position().translation.z,
+            );
+            *trans.rotation_mut() = ana::Unit::new_unchecked(ana::Quaternion::new(
+                collider.position().rotation.coords.x,
+                collider.position().rotation.coords.y,
+                collider.position().rotation.coords.z,
+                collider.position().rotation.coords.w,
+            ));
+
+            let mesh: Handle<Mesh> = if let Some(_s) = shape.as_shape::<shape::Plane<f32>>() {
+                // TODO(dschwab): Create an appropriate plane mesh
+                unimplemented!()
+            } else if let Some(s) = shape.as_shape::<shape::Ball<f32>>() {
+                println!("Creating sphere collider entity");
+
+                let scale = 2.0 * s.radius() + collider.margin();
+                trans.set_scale(scale, scale, scale);
+
+                self.sphere
+                    .as_ref()
+                    .expect("sphere mesh is not loaded")
+                    .clone()
+            } else if let Some(_s) = shape.as_shape::<shape::Cuboid<f32>>() {
+                // TODO(dschwab): Create an appropriate cube mesh
+                unimplemented!()
+            } else if let Some(_s) = shape.as_shape::<shape::Capsule<f32>>() {
+                // TODO(dschwab): Create an appropriate capsule mesh
+                unimplemented!()
+            } else if let Some(_s) = shape.as_shape::<shape::HeightField<f32>>() {
+                unimplemented!()
+            } else if let Some(_s) = shape.as_shape::<shape::TriMesh<f32>>() {
+                unimplemented!()
+            } else if let Some(s) = shape.as_shape::<shape::ConvexHull<f32>>() {
+                let mut chull = transformation::convex_hull(s.points());
+                chull.replicate_vertices();
+                chull.recompute_normals();
+
+                let mesh = asset::trimesh::to_mesh_data(&chull);
+
+                data.world
+                    .exec(|loader: AssetLoaderSystemData<'_, Mesh>| loader.load_from_data(mesh, ()))
+            } else {
+                // TODO(dschwab): Better error handling
+                panic!("Unsupported shape type!");
+            };
+
+            data.world
                 .create_entity()
                 .with(ColliderComponent {
                     id: collider.handle(),
                 })
-                .with(material);
-
-            println!("Create mesh component");
-            let shape = collider.shape().as_ref();
-            if let Some(_s) = shape.as_shape::<shape::Plane<f32>>() {
-                // TODO(dschwab): Create an appropriate plane mesh
-
-            } else if let Some(s) = shape.as_shape::<shape::Ball<f32>>() {
-                println!("Creating sphere collider entity");
-
-                let mut trans = Transform::default();
-                trans.set_xyz(
-                    collider.position().translation.x,
-                    collider.position().translation.y,
-                    collider.position().translation.z,
-                );
-                let scale = 2.0 * s.radius() + collider.margin();
-                trans.set_scale(scale, scale, scale);
-
-                entity = entity
-                    .with(
-                        // TODO(dschwab): How do I deal with errors?
-                        self.sphere
-                            .as_ref()
-                            .expect("sphere mesh not loaded")
-                            .clone(),
-                    )
-                    .with(trans);
-            } else if let Some(_s) = shape.as_shape::<shape::Cuboid<f32>>() {
-                // TODO(dschwab): Create an appropriate cube mesh
-            }
-            // TODO(dschwab): handle other shape cases
-
-            entity.build();
+                .with(mesh)
+                .with(trans)
+                .with(material)
+                .build();
         }
 
         // TODO(dschwab): Create lights
