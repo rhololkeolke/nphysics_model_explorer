@@ -1,0 +1,25 @@
+<mujoco model="Static Planes">
+  <worldbody>
+    <!-- coordinate frame -->
+    <geom name="xaxis" type="cylinder" size="0.01" fromto="0 0 0 .5 0 0" rgba="1 0 0 1"/>
+    <geom name="yaxis" type="cylinder" size="0.01" fromto="0 0 0 0 .5 0" rgba="0 1 0 1"/>
+    <geom name="zaxis" type="cylinder" size="0.01" fromto="0 0 0 0 0 .5" rgba="0 0 1 1"/>
+
+    <geom name="x-y-plane" type="plane" zaxis="0 0 1" rgba="1 1 0 1"/>
+    <geom name="x-z-plane" type="plane" zaxis="0 1 0" rgba="1 0 1 1"/>
+    <geom name="y-z-plane" type="plane" zaxis="1 0 0" rgba="0 1 1 1"/>
+
+    <!-- Back faces. Should setup renderer to automatically add these -->
+    <geom name="x-y-plane" type="plane" zaxis="0 0 -1" rgba="1 1 0 .5"/>
+    <geom name="x-z-plane" type="plane" zaxis="0 -1 0" rgba="1 0 1 .5"/>
+    <geom name="y-z-plane" type="plane" zaxis="-1 0 0" rgba="0 1 1 .5"/>    
+
+    <!-- <geom name="x-y-plane" type="plane" euler="0 0 0" rgba="1 1 0 1"/> -->
+    <!-- <geom name="x-z-plane" type="plane" euler="0 0 1.57" rgba="1 0 1 1"/> -->
+    <!-- <geom name="y-z-plane" type="plane" euler="0 1.57 0" rgba="0 1 1 1"/> -->
+
+    <!-- <geom name="x-y-plane" type="plane" xyaxes="1 0 0 0 1 0" rgba="1 1 0 1"/> -->
+    <!-- <geom name="x-z-plane" type="plane" xyaxes="1 0 0 0 0 -1" rgba="1 0 1 1"/> -->
+    <!-- <geom name="y-z-plane" type="plane" xyaxes="0 1 0 0 0 1" rgba="0 1 1 1"/> -->
+  </worldbody>
+</mujoco>

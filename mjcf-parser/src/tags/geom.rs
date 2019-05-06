@@ -55,8 +55,8 @@ where
     let shape_handle: ShapeHandle<N> = match geom_node.attribute("type") {
         Some("plane") => {
             warn!(logger, "Size currently ignored"; "type" => "plane");
-            warn!(logger, "Orientation currently ignored"; "type" => "plane");
-            ShapeHandle::new(shape::Plane::new(na::Unit::new_normalize(na::Vector3::z())))
+            let normal = na::Unit::new_unchecked(na::Vector3::<N>::z());
+            ShapeHandle::new(shape::Plane::new(normal))
         }
         Some("hfield") => {
             return Err(GeomError::UnsupportedType {
@@ -194,7 +194,7 @@ where
         Some("capsule") | Some("cylinder") => {
             let fix_principal_axis = na::UnitQuaternion::<N>::from_euler_angles(
                 N::from(0.0),
-                N::from(std::f32::consts::FRAC_PI_2),                
+                N::from(std::f32::consts::FRAC_PI_2),
                 N::from(0.0),
             );
             attributes::parse_orientation_attribute(logger, geom_node, true)? * fix_principal_axis
@@ -240,7 +240,6 @@ where
 
     if let Some(rgba) = geom_node.attribute("rgba") {
         let rgba: na::Vector4<f32> = attributes::parse_real_vector_attribute(rgba)?;
-        warn!(logger, "Currently alpha color values are not supported"; "rgba" => %rgba);
         user_data.rgba = Some(na::Point4::from(rgba));
     }
 

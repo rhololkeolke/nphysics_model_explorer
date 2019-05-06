@@ -2,7 +2,8 @@ use super::real_vector_attribute::{parse_real_vector_attribute, ParseRealAttribu
 use failure::Fail;
 use nalgebra as na;
 use slog;
-use slog::warn;
+#[allow(unused_imports)]
+use slog::{debug, info, trace, warn};
 
 #[derive(Clone, PartialEq, Debug, Fail)]
 pub enum ParseOrientationError {
@@ -89,16 +90,20 @@ where
             100,
             na::UnitQuaternion::identity(),
         ));
+
+        debug!(logger, "orientation from xyaxes"; "x-axis" => %x_axis, "y-axis" => %y_axis, "z_axis" => %z_axis, "rot_mat" => %rot_mat, "quat" => %output.unwrap());
     }
 
     let zaxis = node.attribute("zaxis");
     if zaxis.is_some() && output.is_some() {
         return Err(ParseOrientationError::MultipleOrientationsSpecified);
     } else if zaxis.is_some() {
-        let default_axis = na::Vector3::<N>::y();
+        let default_axis = na::Vector3::<N>::z();
         let zaxis: na::Vector3<N> = parse_real_vector_attribute(zaxis.unwrap())?;
 
         output = na::UnitQuaternion::<N>::rotation_between(&default_axis, &zaxis);
+
+        debug!(logger, "Computed rotation between"; "default_axis" => %default_axis, "zaxis" => %zaxis, "output" => ?output);
     }
 
     if allow_fromto {
@@ -274,7 +279,7 @@ mod tests {
         #[test]
         fn parse_zaxis(z_values in proptest::collection::vec(-1.0f32..1.0, 3)) {
             let z_axis = na::Vector3::new(z_values[0], z_values[1], z_values[2]);
-            let default_axis = na::Vector3::y();
+            let default_axis = na::Vector3::z();
             let expected_quat = na::UnitQuaternion::rotation_between(&default_axis, &z_axis).unwrap_or(na::UnitQuaternion::<f32>::identity());
 
             let xml = format!("<geom zaxis=\"{} {} {}\"/>", z_values[0], z_values[1], z_values[2]);
