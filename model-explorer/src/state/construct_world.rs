@@ -147,8 +147,6 @@ impl SimpleState for ConstructWorldState<f32> {
                 // TODO(dschwab): Create an appropriate plane mesh
                 unimplemented!()
             } else if let Some(s) = shape.as_shape::<shape::Ball<f32>>() {
-                println!("Creating sphere collider entity");
-
                 let scale = 2.0 * s.radius() + collider.margin();
                 trans.set_scale(scale, scale, scale);
 
@@ -156,11 +154,18 @@ impl SimpleState for ConstructWorldState<f32> {
                     .as_ref()
                     .expect("sphere mesh is not loaded")
                     .clone()
-            } else if let Some(_s) = shape.as_shape::<shape::Cuboid<f32>>() {
-                // TODO(dschwab): Create an appropriate cube mesh
-                unimplemented!()
+            } else if let Some(s) = shape.as_shape::<shape::Cuboid<f32>>() {
+                trans.set_scale(
+                    2.0 * s.half_extents().x + collider.margin(),
+                    2.0 * s.half_extents().y + collider.margin(),
+                    2.0 * s.half_extents().z + collider.margin(),
+                );
+
+                self.cube
+                    .as_ref()
+                    .expect("cuboid mesh is not loaded")
+                    .clone()
             } else if let Some(s) = shape.as_shape::<shape::Capsule<f32>>() {
-                println!("Loading capsule");
                 let mesh = {
                     let mut mesh = s.to_trimesh((32, 32));
                     mesh.replicate_vertices();
